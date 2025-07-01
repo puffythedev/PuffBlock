@@ -1,0 +1,9 @@
+CompileFlags:
+  Add:
+    - "-IC:/Users/sky/Projects/puffblock"
+    - "-IC:/Users/sky/Projects/puffblock/engine"
+    - "-IC:/Users/sky/Projects/puffblock/imgui"
+    - "-IC:/Users/sky/Projects/puffblock/outside/glm"
+    - "-IC:/Users/sky/Projects/puffblock/outside/spdlog/include"
+    - "-IC:/Users/sky/Projects/puffblock/outside/glfw/include"
+    - "-IC:/Users/sky/Projects/puffblock/headers"

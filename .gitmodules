@@ -1,0 +1,9 @@
+[submodule "outside/glfw"]
+	path = outside/glfw
+	url = https://github.com/glfw/glfw
+[submodule "outside/spdlog"]
+	path = outside/spdlog
+	url = https://github.com/gabime/spdlog
+[submodule "outside/glm"]
+	path = outside/glm
+	url = https://github.com/g-truc/glm
