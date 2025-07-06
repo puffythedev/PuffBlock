@@ -29,7 +29,7 @@ add_library(FastNoiseSIMD STATIC
 if(MSVC)
 target_compile_options(FastNoiseSIMD PRIVATE "$<$<COMPILE_LANGUAGE:CXX>:/arch:AVX2>")
 else()
-target_compile_options(FastNoiseSIMD PRIVATE "$<$<COMPILE_LANGUAGE:CXX>:-mavx2>")
+target_compile_options(FastNoiseSIMD PRIVATE "$<$<COMPILE_LANGUAGE:CXX>:-mavx2>" "$<$<COMPILE_LANGUAGE:CXX>:-mfma>")
 endif()
 
 add_library(ImGUI STATIC
@@ -112,5 +112,6 @@ target_include_directories(Game PUBLIC
     headers
     engine
     imgui
+    .
 )
-target_link_libraries(Game PRIVATE glfw glad glm spdlog PuffEngine ImGUI)
+target_link_libraries(Game PRIVATE glfw glad glm spdlog PuffEngine ImGUI FastNoiseSIMD)
