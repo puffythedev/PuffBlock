@@ -9,6 +9,11 @@ struct Vertex {
     glm::vec2 texcoord;
 };
 
+struct VertexNorm {
+    glm::vec3 position;
+    glm::vec2 texcoord;
+};
+
 enum class CubeFace {
     FRONT,   // +Z
     BACK,    // -Z
@@ -99,12 +104,12 @@ static inline Vertex cubeVertices[] = {
 };
 
 static inline unsigned int cubeIndices[] = {
-   0, 1, 2, 2, 3, 0,        // Back
+    0, 1, 2, 2, 3, 0,        // Back
     4, 6, 5, 5, 7, 4,       // Front
     8, 10, 9, 9, 11, 8,     // Left
     12, 13, 14, 14, 15, 12, // Right
     16, 18, 17, 17, 19, 16, // Bottom
     20, 21, 22, 22, 23, 20  // Top
 };
-std::vector<Vertex> getCubeFaceVertices(CubeFace face, const glm::vec3& offset, float size);
-void addFace(std::vector<Vertex>& verts, CubeFace face, const glm::vec3& offset, float size);
+// std::vector<Vertex> getCubeFaceVertices(CubeFace face, const glm::vec3& offset, uint16_t size);
+void addFace(std::vector<VertexNorm>& verts, CubeFace face, const glm::vec3& offset, uint16_t size);

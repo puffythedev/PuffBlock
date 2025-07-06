@@ -2,7 +2,6 @@
 
 Holder::Holder(){
     layout.Push<float>(3);
-    layout.Push<float>(3);
     layout.Push<float>(2);
 }
 
