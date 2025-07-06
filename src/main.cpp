@@ -52,6 +52,10 @@ public:
         projection = matrix;
     }
 
+    glm::mat4 getMVP(){
+        return projection * view * model;
+    }
+
     void ResetM(){
         model = glm::mat4(1.0f);
     }
@@ -76,13 +80,11 @@ int main(){
     
     Texture2D texture = textures.LoadTexture("no", "textures/hi.png");
     
-    Engine::Shader shader("shaders/basic.vert", "shaders/basic.pix");
-    
-    Holder lightCube;
-    
-    lightCube.vbo.Initialize(cubeVertices, sizeof(cubeVertices));
-    lightCube.ibo.Initialize(cubeIndices, sizeof(cubeIndices));
-    lightCube.GenerateSelf();
+    Engine::Shader shader("shaders/triangle.vertex.glsl", "shaders/triangle.pixel.glsl");
+
+    Chunk chunk(0, 0);
+    chunk.Generate();
+    chunk.BuildMesh();
         
     shader.bind();
     while (window.running()) {
@@ -95,38 +97,21 @@ int main(){
         
         mvp.setV(cam.getView());
         mvp.setP(glm::perspective(glm::radians(cam.fov), window.getAspect(), 0.1f, 100.0f));
-        mvp.setM(glm::translate(mvp.model, imgui.utility.v1));
 
         { // MVP Shader setter
-            shader.set<glm::mat4>("u_model", mvp.model);
+            /*shader.set<glm::mat4>("u_model", mvp.model);
             shader.set<glm::mat4>("u_view", mvp.view);
-            shader.set<glm::mat4>("u_projection", mvp.projection);
+            shader.set<glm::mat4>("u_projection", mvp.projection);*/
+            shader.set<glm::mat4>("mvp", mvp.getMVP());
         }
 
         { // Texture Setter
             texture.bind(0);
-            shader.set<int>("u_Texture", (int)0);
+            shader.set<int>("texture", 0);
         }
 
-        { // Position Setter
-            shader.set<glm::vec3>("viewPos", cam.getPosition());
-            shader.set<glm::vec3>("lightPos", imgui.utility.v1);
-        }
+        Render3D(renderer.Draw(chunk.holder.va, shader, chunk.vertices.size()));
 
-        { // Shader Values
-            shader.set<float>("material.shininess", 128.0f);
-            shader.set<float>("pix_enabled", 1.0f);
-        }
-
-        { // Colors
-            shader.set<glm::vec3>("pix_objectColor", glm::vec3(153.0f / 255.0f, 51.0f / 255.0f, 51.0f / 255.0f)); // glm::vec3(static_cast<float>(153 / 255), static_cast<float>(51 / 255), static_cast<float>(51 / 255))
-            shader.set<glm::vec3>("pix_lightColor", imgui.utility.v2);
-	        shader.set<glm::vec3>("material.ambient", glm::vec3(1.0f, 0.5f, 0.31f));
-	        shader.set<glm::vec3>("material.diffuse", glm::vec3(1.0f, 0.5f, 0.31f));
-	        shader.set<glm::vec3>("material.specular", glm::vec3(0.5f, 0.5f, 0.5f));
-        }
-        
-        lightCube.Draw(renderer, shader);
         window.flip();
     }
 
