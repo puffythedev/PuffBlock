@@ -1,5 +1,8 @@
 #include "vertexbuf.hpp"
 #include <glad/gl.h>
+VertexBuffer::VertexBuffer() {
+    glGenBuffers(1, &m_bufferID);
+}
 
 VertexBuffer::VertexBuffer(const void *data, unsigned int size) {
     glGenBuffers(1, &m_bufferID);
@@ -20,7 +23,6 @@ void VertexBuffer::unbind() const {
 }
 
 void VertexBuffer::Initialize(const void* data, unsigned int size){
-    glGenBuffers(1, &m_bufferID);
-    glBindBuffer(GL_ARRAY_BUFFER, m_bufferID);
+    this->bind();
     glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
 }
